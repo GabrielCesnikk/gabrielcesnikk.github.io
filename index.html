@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gabriel Cesnik — Desenvolvedor .NET</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#FAFAFA; --surface:#FFFFFF; --border:#E4E4E7; --border2:#D1D5DB;
+      --text:#111111; --text2:#52525B; --text3:#A1A1AA; --accent:#18181B;
+      --green:#16A34A; --green-bg:#F0FDF4; --green-bd:#BBF7D0;
+      --blue:#1D4ED8; --tag-bg:#F4F4F5; --tag-text:#3F3F46;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Inter',sans-serif; font-size:15px; background:var(--bg); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
+ 
+    /* NAV */
+    nav { position:sticky; top:0; z-index:100; background:rgba(250,250,250,0.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; padding:0 2rem; height:56px; }
+    .nav-name { font-size:0.9rem; font-weight:600; color:var(--text); text-decoration:none; }
+    .nav-links { display:flex; gap:0.25rem; list-style:none; }
+    .nav-links a { font-size:0.82rem; color:var(--text2); text-decoration:none; padding:0.4rem 0.8rem; border-radius:6px; transition:background 0.15s, color 0.15s; }
+    .nav-links a:hover { background:var(--border); color:var(--text); }
+    .nav-cta { font-size:0.82rem; font-weight:500; background:var(--accent); color:#fff; text-decoration:none; padding:0.45rem 1.1rem; border-radius:6px; transition:opacity 0.15s; }
+    .nav-cta:hover { opacity:0.85; }
+ 
+    /* LAYOUT */
+    .container { max-width:960px; margin:0 auto; padding:0 2rem; }
+ 
+    /* HERO */
+    #hero { padding:5rem 0 4rem; border-bottom:1px solid var(--border); background:var(--surface); }
+    #hero .container { display:grid; grid-template-columns:1fr auto; gap:3rem; align-items:center; }
+    .hero-available { display:inline-flex; align-items:center; gap:0.5rem; font-size:0.75rem; font-weight:500; color:var(--green); background:var(--green-bg); border:1px solid var(--green-bd); padding:0.3rem 0.75rem; border-radius:99px; margin-bottom:1.25rem; }
+    .hero-available::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--green); animation:pulse 2s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    h1 { font-size:clamp(2rem,4vw,2.8rem); font-weight:600; letter-spacing:-0.03em; line-height:1.15; margin-bottom:0.5rem; color:var(--text); }
+    .hero-role { font-size:1.05rem; color:var(--text2); margin-bottom:1.5rem; }
+    .hero-skills { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:2rem; }
+    .skill-tag { font-family:'JetBrains Mono',monospace; font-size:0.72rem; background:var(--tag-bg); color:var(--tag-text); padding:0.3rem 0.7rem; border-radius:5px; border:1px solid var(--border); }
+    .skill-tag.hl { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .hero-actions { display:flex; gap:0.75rem; flex-wrap:wrap; }
+    .btn-primary { font-size:0.85rem; font-weight:500; background:var(--accent); color:#fff; text-decoration:none; padding:0.65rem 1.4rem; border-radius:7px; display:inline-flex; align-items:center; gap:0.5rem; transition:opacity 0.15s; }
+    .btn-primary:hover { opacity:0.85; }
+    .btn-secondary { font-size:0.85rem; font-weight:500; background:var(--surface); color:var(--text); border:1px solid var(--border2); text-decoration:none; padding:0.65rem 1.4rem; border-radius:7px; display:inline-flex; align-items:center; gap:0.5rem; transition:background 0.15s, border-color 0.15s; }
+    .btn-secondary:hover { background:var(--bg); border-color:var(--text2); }
+    .hero-avatar { width:120px; height:120px; border-radius:50%; border:3px solid var(--border); flex-shrink:0; overflow:hidden; }
+    .hero-avatar img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+ 
+    /* SECTIONS */
+    section { padding:4rem 0; border-bottom:1px solid var(--border); }
+    .section-label { font-size:0.7rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--text3); margin-bottom:0.5rem; }
+    h2 { font-size:1.35rem; font-weight:600; letter-spacing:-0.02em; color:var(--text); margin-bottom:2rem; }
+ 
+    /* SOBRE */
+    #sobre .grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start; }
+    .sobre-text p { font-size:0.92rem; color:var(--text2); margin-bottom:0.9rem; line-height:1.8; }
+    .sobre-text p strong { color:var(--text); font-weight:500; }
+    .sobre-facts { display:flex; flex-direction:column; gap:0.75rem; }
+    .fact { display:flex; gap:1rem; align-items:flex-start; padding:0.9rem 1rem; background:var(--surface); border:1px solid var(--border); border-radius:8px; }
+    .fact-icon { font-size:1rem; margin-top:1px; flex-shrink:0; }
+    .fact-label { font-size:0.7rem; color:var(--text3); margin-bottom:0.15rem; }
+    .fact-value { font-size:0.85rem; font-weight:500; color:var(--text); }
+ 
+    /* SKILLS */
+    #habilidades { background:var(--surface); }
+    .skills-table { width:100%; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+    .skills-row { display:grid; grid-template-columns:180px 1fr auto; align-items:center; padding:1rem 1.25rem; border-bottom:1px solid var(--border); gap:1rem; transition:background 0.15s; }
+    .skills-row:last-child { border-bottom:none; }
+    .skills-row:hover { background:var(--bg); }
+    .skills-row-name { font-size:0.88rem; font-weight:500; color:var(--text); }
+    .skills-row-tags { display:flex; flex-wrap:wrap; gap:0.35rem; }
+    .skills-row-level { font-size:0.72rem; font-weight:500; padding:0.25rem 0.65rem; border-radius:99px; white-space:nowrap; }
+    .lv-solid   { background:var(--green-bg); color:var(--green); border:1px solid var(--green-bd); }
+    .lv-current { background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; }
+    .lv-learn   { background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; }
+ 
+    /* PROJETOS */
+    .projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; }
+    .project-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.4rem; display:flex; flex-direction:column; transition:border-color 0.2s, box-shadow 0.2s; }
+    .project-card:hover { border-color:var(--border2); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+    .project-card-top { display:flex; justify-content:flex-end; margin-bottom:0.75rem; }
+    .project-card h3 { font-size:0.95rem; font-weight:600; margin-bottom:0.4rem; }
+    .project-card p { font-size:0.82rem; color:var(--text2); line-height:1.7; flex:1; margin-bottom:1.25rem; }
+    .project-card-footer { display:flex; justify-content:space-between; align-items:center; padding-top:0.9rem; border-top:1px solid var(--border); }
+    .project-stack { display:flex; gap:0.3rem; flex-wrap:wrap; }
+    .project-stack span { font-family:'JetBrains Mono',monospace; font-size:0.65rem; background:var(--tag-bg); color:var(--tag-text); padding:0.2rem 0.5rem; border-radius:4px; border:1px solid var(--border); }
+    .project-link { font-size:0.78rem; font-weight:500; color:var(--blue); text-decoration:none; }
+    .project-link:hover { text-decoration:underline; }
+    .status-badge { font-size:0.68rem; font-weight:500; padding:0.2rem 0.6rem; border-radius:99px; border:1px solid; white-space:nowrap; }
+    .s-active  { background:var(--green-bg); color:var(--green); border-color:var(--green-bd); }
+    .s-done    { background:var(--tag-bg); color:var(--text3); border-color:var(--border); }
+    .s-planned { background:#FFFBEB; color:#92400E; border-color:#FDE68A; }
+ 
+    /* CONTATO */
+    #contato { background:var(--surface); }
+    .contact-card { max-width:560px; background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:2rem; }
+    .contact-card p { font-size:0.88rem; color:var(--text2); margin-bottom:1.5rem; line-height:1.7; }
+    .contact-links { display:flex; flex-direction:column; gap:0.6rem; }
+    .contact-link { display:flex; align-items:center; gap:0.75rem; padding:0.75rem 1rem; background:var(--surface); border:1px solid var(--border); border-radius:7px; text-decoration:none; color:var(--text); font-size:0.85rem; transition:border-color 0.15s; }
+    .contact-link:hover { border-color:var(--border2); }
+    .contact-link-label { font-weight:500; flex:1; }
+    .contact-link-value { font-size:0.78rem; color:var(--text3); }
+    .contact-link-arrow { color:var(--text3); }
+ 
+    footer { padding:1.5rem 2rem; text-align:center; font-size:0.78rem; color:var(--text3); border-top:1px solid var(--border); }
+ 
+    .fade-in { opacity:0; transform:translateY(16px); transition:opacity 0.5s ease, transform 0.5s ease; }
+    .fade-in.visible { opacity:1; transform:none; }
+ 
+    @media(max-width:700px){
+      h1{font-size:1.9rem;}
+      #hero .container{grid-template-columns:1fr;}
+      .hero-avatar{display:none;}
+      #sobre .grid{grid-template-columns:1fr; gap:2rem;}
+      .skills-row{grid-template-columns:1fr auto;}
+      .skills-row-tags{display:none;}
+      nav{padding:0 1.25rem;}
+      .nav-links{display:none;}
+      .container{padding:0 1.25rem;}
+      section{padding:3rem 0;}
+      #hero{padding:3rem 0 2.5rem;}
+    }
+  </style>
+</head>
+<body>
+ 
+<nav>
+  <a href="#hero" class="nav-name">Gabriel Cesnik</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#habilidades">Skills</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+  </ul>
+  <a href="#contato" class="nav-cta">Entrar em contato</a>
+</nav>
+ 
+<section id="hero">
+  <div class="container">
+    <div>
+      <div class="hero-available">Disponível para oportunidades</div>
+      <h1>Gabriel Cesnik</h1>
+      <p class="hero-role">Desenvolvedor de Software · Foco em .NET &amp; C#</p>
+      <div class="hero-skills">
+        <span class="skill-tag hl">C#</span>
+        <span class="skill-tag hl">.NET</span>
+        <span class="skill-tag hl">MAUI Blazor</span>
+        <span class="skill-tag">SQLite</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Tailwind CSS</span>
+        <span class="skill-tag">ASP.NET ↗</span>
+      </div>
+      <div class="hero-actions">
+        <a href="curriculo.pdf" download class="btn-primary">↓ Baixar currículo</a>
+        <a href="#contato" class="btn-secondary">Entrar em contato</a>
+        <a href="https://github.com/GabrielCesnikk" target="_blank" class="btn-secondary">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="hero-avatar">
+      <img src="eu.jfif" alt="Gabriel Cesnik">
+    </div>
+  </div>
+</section>
+ 
+<section id="sobre">
+  <div class="container">
+    <p class="section-label">Sobre</p>
+    <h2>Quem sou eu</h2>
+    <div class="grid fade-in">
+      <div class="sobre-text">
+        <p>Desenvolvedor autodidata baseado no Brasil, com foco no ecossistema <strong>.NET e C#</strong>. Construo aplicações reais do início ao fim — do banco de dados à interface.</p>
+        <p>Atualmente desenvolvo o <strong>AppGestaoFinanceira</strong>, um sistema completo de gestão para salão usando .NET MAUI Blazor. Cada projeto é uma oportunidade de aprofundar boas práticas, não apenas entregar código que funciona.</p>
+        <p>Meu objetivo é uma posição <strong>júnior</strong> onde eu possa contribuir com código de qualidade e continuar evoluindo — aberto a oportunidades no Brasil, Europa, EUA e Canadá.</p>
+      </div>
+      <div class="sobre-facts">
+        <div class="fact">
+          <div class="fact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><div class="fact-label">Localização</div><div class="fact-value">Brasil · Remoto preferido</div></div>
+        </div>
+        <div class="fact">
+          <div class="fact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="12.01"/></svg></div>
+          <div><div class="fact-label">Buscando</div><div class="fact-value">Posição Júnior · Freela</div></div>
+        </div>
+        <div class="fact">
+          <div class="fact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div><div class="fact-label">Mercados</div><div class="fact-value">BR · EUA · Europa · Canadá</div></div>
+        </div>
+        <div class="fact">
+          <div class="fact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></div>
+          <div><div class="fact-label">GitHub</div><div class="fact-value">github.com/GabrielCesnikk</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="habilidades">
+  <div class="container">
+    <p class="section-label">Habilidades</p>
+    <h2>Stack técnica</h2>
+    <div class="skills-table fade-in">
+      <div class="skills-row">
+        <div class="skills-row-name">C# &amp; .NET</div>
+        <div class="skills-row-tags">
+          <span class="skill-tag">OOP</span><span class="skill-tag">CRUD</span><span class="skill-tag">SQLite</span><span class="skill-tag">Repositories</span>
+        </div>
+        <span class="skills-row-level lv-solid">Sólido</span>
+      </div>
+      <div class="skills-row">
+        <div class="skills-row-name">.NET MAUI Blazor</div>
+        <div class="skills-row-tags">
+          <span class="skill-tag">Razor</span><span class="skill-tag">Hybrid Apps</span><span class="skill-tag">Tailwind CSS</span>
+        </div>
+        <span class="skills-row-level lv-current">Em uso ativo</span>
+      </div>
+      <div class="skills-row">
+        <div class="skills-row-name">Git &amp; GitHub</div>
+        <div class="skills-row-tags">
+          <span class="skill-tag">Branches</span><span class="skill-tag">Rebase</span><span class="skill-tag">CLI</span>
+        </div>
+        <span class="skills-row-level lv-solid">Sólido</span>
+      </div>
+      <div class="skills-row">
+        <div class="skills-row-name">ASP.NET Core</div>
+        <div class="skills-row-tags">
+          <span class="skill-tag">APIs REST</span><span class="skill-tag">Entity Framework</span>
+        </div>
+        <span class="skills-row-level lv-learn">Aprendendo</span>
+      </div>
+      <div class="skills-row">
+        <div class="skills-row-name">Boas Práticas</div>
+        <div class="skills-row-tags">
+          <span class="skill-tag">SOLID</span><span class="skill-tag">Clean Code</span><span class="skill-tag">Testes</span>
+        </div>
+        <span class="skills-row-level lv-learn">Aprendendo</span>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="projetos">
+  <div class="container">
+    <p class="section-label">Projetos</p>
+    <h2>Trabalho recente</h2>
+    <div class="projects-grid fade-in">
+      <div class="project-card">
+        <div class="project-card-top"><span class="status-badge s-active">● Em andamento</span></div>
+        <h3>AppGestaoFinanceira</h3>
+        <p>Sistema completo de gestão para salão. Controle de serviços, caixa com múltiplos métodos de pagamento, rastreamento de transações e comissões de equipe.</p>
+        <div class="project-card-footer">
+          <div class="project-stack"><span>.NET MAUI</span><span>Blazor</span><span>Tailwind</span></div>
+          <a href="https://github.com/GabrielCesnikk/SoftwareForFinancialManagement" target="_blank" class="project-link">Ver código ↗</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-card-top"><span class="status-badge s-done">✓ Concluído</span></div>
+        <h3>CRUD-.NET</h3>
+        <p>Aplicação completa em C# com banco SQLite. Demonstra OOP, padrão Repository e separação de responsabilidades em camadas — base sólida documentada no GitHub.</p>
+        <div class="project-card-footer">
+          <div class="project-stack"><span>C#</span><span>SQLite</span><span>.NET</span></div>
+          <a href="https://github.com/GabrielCesnikk/CRUD-.NET" target="_blank" class="project-link">Ver código ↗</a>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-card-top"><span class="status-badge s-planned">⧖ Planejado</span></div>
+        <h3>E-commerce API + Dashboard</h3>
+        <p>Sistema completo de e-commerce com API REST, autenticação JWT, controle de acesso por roles, jobs assíncronos, cache Redis e dashboard administrativo em React.</p>
+        <div class="project-card-footer">
+          <div class="project-stack"><span>ASP.NET Core</span><span>PostgreSQL</span><span>React</span><span>Docker</span></div>
+          <a href="https://github.com/GabrielCesnikk/ecommerce-platform-api" target="_blank" class="project-link">Ver repositório ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="contato">
+  <div class="container">
+    <p class="section-label">Contato</p>
+    <h2>Vamos conversar</h2>
+    <div class="contact-card fade-in">
+      <p>Disponível para posições júnior, freela ou qualquer conversa sobre oportunidades. Respondo em até 24h.</p>
+      <div class="contact-links">
+        <a href="mailto:gabrielcesnik@icloud.com" class="contact-link">
+          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg></span>
+          <span class="contact-link-label">E-mail</span>
+          <span class="contact-link-value"><span class="__cf_email__" data-cfemail="gabrielcesnik@icloud.com">gabrielcesnik@icloud.com</span></span>
+          <span class="contact-link-arrow">↗</span>
+        </a>
+        <a href="https://linkedin.com/in/gabrielcesnik" target="_blank" class="contact-link">
+          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
+          <span class="contact-link-label">LinkedIn</span>
+          <span class="contact-link-value">linkedin.com/in/gabrielcesnik</span>
+          <span class="contact-link-arrow">↗</span>
+        </a>
+        <a href="https://github.com/GabrielCesnikk" target="_blank" class="contact-link">
+          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+          <span class="contact-link-label">GitHub</span>
+          <span class="contact-link-value">github.com/GabrielCesnikk</span>
+          <span class="contact-link-arrow">↗</span>
+        </a>
+        <a href="curriculo.pdf" download class="contact-link">
+          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg></span>
+          <span class="contact-link-label">Currículo</span>
+          <span class="contact-link-value">Baixar PDF</span>
+          <span class="contact-link-arrow">↓</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<footer>
+  <p>Gabriel Cesnik · Desenvolvedor .NET · Brasil · 2025</p>
+</footer>
+ 
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  </script>
